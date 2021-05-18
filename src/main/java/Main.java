@@ -13,7 +13,7 @@ public class Main {
 
         ArrayList<Feature> features = Main.readfile("./countries.geojson");
 
-        KMLWriter writer = new KMLWriter("countries.kml");
+        KMLWriter writer = new KMLWriter("./countries.kml");
         writer.write(features);
     }
 
