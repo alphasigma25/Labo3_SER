@@ -96,10 +96,10 @@ public class KMLWriter {
         polygonElement.addContent(altitudeMode);
 
         Element outerBoundaryIs = new Element("outerBoundaryIs");
-        Element linearRing = new Element("LinearRing");
-        Element coordinates = writeCoordinates(polygon.getCoordinates());
-        linearRing.addContent(coordinates);
-        outerBoundaryIs.addContent(linearRing);
+        Element linearRing1 = new Element("LinearRing");
+        Element coordinates1 = writeCoordinates(polygon.getCoordinates());
+        linearRing1.addContent(coordinates1);
+        outerBoundaryIs.addContent(linearRing1);
         polygonElement.addContent(outerBoundaryIs);
 
         return polygonElement;
