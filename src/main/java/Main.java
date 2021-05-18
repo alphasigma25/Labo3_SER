@@ -47,24 +47,20 @@ public class Main {
 
         ArrayList<Polygon> polygons = new ArrayList<>();
         JSONObject geometry = (JSONObject) feature.get("geometry");
-        switch ((String) geometry.get("type")) {
-            case "Polygon": {
-                JSONArray coordinates = (JSONArray) geometry.get("coordinates");
+        String geometryType = (String) geometry.get("type");
+        if (geometryType.equals("Polygon")) {
+            JSONArray coordinates = (JSONArray) geometry.get("coordinates");
 
-                polygons.add(new Polygon(parseCoordinates((JSONArray) coordinates.get(0))));
-                break;
-            }
-            case "Multipolygon": {
-                JSONArray coordinatesList = (JSONArray) geometry.get("coordinates");
-                for (Object coordinates : coordinatesList) {
-                    JSONArray coordinates2 = (JSONArray) coordinates;
+            polygons.add(new Polygon(parseCoordinates((JSONArray) coordinates.get(0))));
+        } else if (geometryType.equals("MultiPolygon")) {
+            JSONArray coordinatesList = (JSONArray) geometry.get("coordinates");
+            for (Object coordinates : coordinatesList) {
+                JSONArray coordinates2 = (JSONArray) coordinates;
 
-                    polygons.add(new Polygon(parseCoordinates((JSONArray) coordinates2.get(0))));
-                }
-                break;
+                polygons.add(new Polygon(parseCoordinates((JSONArray) coordinates2.get(0))));
             }
-            default:
-                System.err.println("Type de geometry non supporte");
+        } else {
+            System.err.println("Type de geometry non supporte: " + geometryType);
         }
 
         return new Feature(name, countryCode, polygons);
