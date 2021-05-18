@@ -24,4 +24,16 @@ public class Feature {
     public ArrayList<Polygon> getPolygons() {
         return polygons;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append("(").append(countryCode).append(") ").append(name);
+
+        for (Polygon polygon : polygons) {
+            s.append("\n      - ").append(polygon);
+        }
+
+        return s.toString();
+    }
 }

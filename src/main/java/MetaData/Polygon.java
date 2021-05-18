@@ -12,4 +12,9 @@ public class Polygon {
     public ArrayList<Coordinate> getCoordinates() {
         return coordinates;
     }
+
+    @Override
+    public String toString() {
+        return coordinates.size() + " coordinates";
+    }
 }
