@@ -22,6 +22,8 @@ public class KMLWriter {
             root.setAttribute("xmlns", "http://www.opengis.net/kml/2.2");
             Document kmlDoc = new Document(root);
 
+            Element document = new Element("Document");
+
             Element placemark = new Element("Placemark");
 
             Element name = new Element("name");

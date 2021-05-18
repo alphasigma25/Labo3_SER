@@ -1,5 +1,6 @@
-import org.jdom2.Document;
-import org.jdom2.Element;
+import MetaData.Coordinate;
+import MetaData.Feature;
+import MetaData.Polygon;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -47,11 +48,14 @@ public class Main {
         try (FileReader reader = new FileReader(file)) {
             // lecture du fichier
             Object obj = jsonParser.parse(reader);
-            JSONObject personne = (JSONObject) obj;
-            System.out.println(personne);
-            JSONArray features = (JSONArray)personne.get("features");
+            JSONObject collection = (JSONObject) obj;
+            System.out.println(collection);
+            JSONArray features = (JSONArray) collection.get("features");
+
             // parcours du tableau de personnes
-            features.forEach(feature -> parseFeature((JSONObject) feature));
+            for (Object feature : features) {
+                parsedFeatures.add(parseFeature((JSONObject) feature));
+            }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -59,18 +63,27 @@ public class Main {
         return parsedFeatures;
     }
 
-    private static void parseFeature(JSONObject feature) {
+    private static Feature parseFeature(JSONObject feature) {
         JSONObject properties = (JSONObject) feature.get("properties");
+        String name = (String) properties.get("ADMIN");
+        String countryCode = (String) properties.get("ISO_A3");
+
+        ArrayList<Polygon> polygons = new ArrayList<>();
         JSONObject geometry = (JSONObject) feature.get("geometry");
         switch ((String) geometry.get("type")) {
             case "Polygon": {
                 JSONArray coordinates = (JSONArray) geometry.get("coordinates");
-                parseCoordinates(coordinates);
+
+                polygons.add(new Polygon(parseCoordinates((JSONArray) coordinates.get(0))));
                 break;
             }
             case "Multipolygon": {
                 JSONArray coordinatesList = (JSONArray) geometry.get("coordinates");
-                coordinatesList.forEach(coordinates -> parseCoordinates((JSONArray) coordinates));
+                for (Object coordinates : coordinatesList) {
+                    JSONArray coordinates2 = (JSONArray) coordinates;
+
+                    polygons.add(new Polygon(parseCoordinates((JSONArray) coordinates2.get(0))));
+                }
                 break;
             }
             default:
@@ -80,7 +93,14 @@ public class Main {
         return new Feature(name, countryCode, polygons);
     }
 
-    private static void parseCoordinates(JSONArray coordinates) {
+    private static ArrayList<Coordinate> parseCoordinates(JSONArray coordinates) {
+        ArrayList<Coordinate> parsedCoordinates = new ArrayList<>();
 
+        for (Object coordinate : coordinates) {
+            JSONArray coordinates2 = (JSONArray) coordinate;
+            parsedCoordinates.add(new Coordinate((double) coordinates2.get(0), (double) coordinates2.get(1)));
+        }
+
+        return parsedCoordinates;
     }
 }
