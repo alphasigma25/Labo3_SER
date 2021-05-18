@@ -102,6 +102,13 @@ public class KMLWriter {
         outerBoundaryIs.addContent(linearRing1);
         polygonElement.addContent(outerBoundaryIs);
 
+        Element innerBoundaryIs = new Element("innerBoundaryIs");
+        Element linearRing2 = new Element("LinearRing");
+        Element coordinates2 = writeCoordinates(polygon.getCoordinates());
+        linearRing2.addContent(coordinates2);
+        innerBoundaryIs.addContent(linearRing2);
+        polygonElement.addContent(innerBoundaryIs);
+
         return polygonElement;
     }
 
