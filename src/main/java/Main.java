@@ -13,6 +13,10 @@ public class Main {
 
         ArrayList<Feature> features = Main.readfile("./countries.geojson");
 
+        for (Feature feature : features) {
+            System.out.println(feature);
+        }
+
         KMLWriter writer = new KMLWriter("./countries.kml");
         writer.write(features);
     }

@@ -87,10 +87,6 @@ public class KMLWriter {
     private Element writePolygon(Polygon polygon) {
         Element polygonElement = new Element("Polygon");
 
-        /*Element extrude = new Element("extrude");
-        extrude.addContent("1");
-        polygonElement.addContent(extrude);*/
-
         Element altitudeMode = new Element("altitudeMode");
         altitudeMode.addContent("relativeToGround");
         polygonElement.addContent(altitudeMode);
