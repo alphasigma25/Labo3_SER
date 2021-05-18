@@ -47,7 +47,7 @@ public class KMLWriter {
         Element placemark = new Element("Placemark");
 
         Element name = new Element("name");
-        name.setText(feature.getName());
+        name.addContent(feature.getName());
         placemark.addContent(name);
 
         //ExtendedData
@@ -72,9 +72,11 @@ public class KMLWriter {
     private Element writePolygons(ArrayList<Polygon> polygons) {
         if (polygons.size() > 1) {
             Element multigeom = new Element("MultiGeometry");
+
             for(Polygon p: polygons){
                 multigeom.addContent(writePolygon(p));
             }
+
             return multigeom;
         } else {
             return writePolygon(polygons.get(0));
@@ -85,11 +87,11 @@ public class KMLWriter {
         Element polygonElement = new Element("Polygon");
 
         Element extrude = new Element("extrude");
-        extrude.setText("1");
+        extrude.addContent("1");
         polygonElement.addContent(extrude);
 
         Element altitudeMode = new Element("altitudeMode");
-        altitudeMode.setText("relativeToGround");
+        altitudeMode.addContent("relativeToGround");
         polygonElement.addContent(altitudeMode);
 
         Element outerBoundaryIs = new Element("outerBoundaryIs");
@@ -104,11 +106,13 @@ public class KMLWriter {
 
     private Element writeCoordinates(ArrayList<Coordinate> coords){
         Element coordinates = new Element("coordinates");
+
         StringBuilder textCoords = new StringBuilder();
         for(Coordinate c : coords){
             textCoords.append(c.getLatitude()).append(",").append(c.getLongitude()).append(" ");
         }
         coordinates.addContent(textCoords.toString());
+
         return coordinates;
     }
 }
