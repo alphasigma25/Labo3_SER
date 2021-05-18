@@ -24,8 +24,6 @@ public class Main {
       name: String,
       polygons: Polygon[],
     }
-
-
     type :
     features : []
     feature : {
@@ -39,12 +37,12 @@ public class Main {
       }
     }
      */
+
     //parser geojson
     public static ArrayList<Feature> readfile(String file) {
         //JSON parser object pour lire le fichier
         JSONParser jsonParser = new JSONParser();
         ArrayList<Feature> parsedFeatures = new ArrayList<>();
-
         try (FileReader reader = new FileReader(file)) {
             // lecture du fichier
             Object obj = jsonParser.parse(reader);

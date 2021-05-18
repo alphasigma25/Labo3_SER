@@ -1,4 +1,6 @@
+import MetaData.Coordinate;
 import MetaData.Feature;
+import MetaData.Polygon;
 import org.jdom2.*;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
