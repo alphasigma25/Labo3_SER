@@ -5,16 +5,44 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.FileReader;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
 
-        Main.readfile("./countries.geojson");
+        ArrayList<Feature> features = Main.readfile("./countries.geojson");
+
+        KMLWriter writer = new KMLWriter("countries.kml");
+        writer.write(features);
     }
 
-    public static void readfile(String file) {
+    /*
+    features : Feature[]
+
+    class Feature {
+      name: String,
+      polygons: Polygon[],
+    }
+
+
+    type :
+    features : []
+    feature : {
+      type : ???
+      properties : {ADMIN, ISO_A3}
+      geometry :
+      { type : Polygon | ???
+      coordinates [[ [double,double] ]]
+
+
+      }
+    }
+     */
+    //parser geojson
+    public static ArrayList<Feature> readfile(String file) {
         //JSON parser object pour lire le fichier
         JSONParser jsonParser = new JSONParser();
+        ArrayList<Feature> parsedFeatures = new ArrayList<>();
 
         try (FileReader reader = new FileReader(file)) {
             // lecture du fichier
@@ -28,6 +56,7 @@ public class Main {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return parsedFeatures;
     }
 
     private static void parseFeature(JSONObject feature) {
@@ -44,8 +73,11 @@ public class Main {
                 coordinatesList.forEach(coordinates -> parseCoordinates((JSONArray) coordinates));
                 break;
             }
-            default: System.err.println("Type de geometry non supporte");
+            default:
+                System.err.println("Type de geometry non supporte");
         }
+
+        return new Feature(name, countryCode, polygons);
     }
 
     private static void parseCoordinates(JSONArray coordinates) {

@@ -1,23 +1,26 @@
+import MetaData.Feature;
 import org.jdom2.*;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
-public class XMLWriter {
+public class KMLWriter {
 
-    public XMLWriter(){
+    String kmlFilePath;
 
+    public KMLWriter(String kmlFilePath){
+        this.kmlFilePath = kmlFilePath;
     }
 
-    public void fct(String xmlFilePath) {
+    public void write(ArrayList<Feature> features) {
 
         try {
-
             Element root = new Element("kml");
             root.setAttribute("xmlns", "http://www.opengis.net/kml/2.2");
-            Document document = new Document(root);
+            Document kmlDoc = new Document(root);
 
             Element placemark = new Element("Placemark");
 
@@ -27,7 +30,7 @@ public class XMLWriter {
 
             root.addContent(placemark);
 
-            Element polygon = new Element("Polygon");
+            Element polygon = new Element("MetaData.Polygon");
             Element extrude = new Element("extrude");
             extrude.setText("1");
             polygon.addContent(extrude);
@@ -36,7 +39,7 @@ public class XMLWriter {
 
             XMLOutputter xmlOutputer = new XMLOutputter();
             xmlOutputer.setFormat(Format.getPrettyFormat());
-            xmlOutputer.output(document, new FileWriter(xmlFilePath));
+            xmlOutputer.output(kmlDoc, new FileWriter(kmlFilePath));
 
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
