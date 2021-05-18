@@ -26,7 +26,7 @@ public class Main {
             // lecture du fichier
             Object obj = jsonParser.parse(reader);
             JSONObject collection = (JSONObject) obj;
-            System.out.println(collection);
+            //System.out.println(collection);
             JSONArray features = (JSONArray) collection.get("features");
 
             // parcours du tableau de personnes

@@ -20,8 +20,7 @@ public class KMLWriter {
     public void write(ArrayList<Feature> features) {
 
         try {
-            Element root = new Element("kml");
-            root.setAttribute("xmlns", "http://www.opengis.net/kml/2.2");
+            Element root = new Element("kml", Namespace.getNamespace("http://www.opengis.net/kml/2.2"));
             Document kmlDoc = new Document(root);
 
             Element document = new Element("Document");
@@ -64,7 +63,9 @@ public class KMLWriter {
 
         //Polygons
         Element polygons = writePolygons(feature.getPolygons());
-        placemark.addContent(polygons);
+        if(polygons != null) {
+            placemark.addContent(polygons);
+        }
 
         return placemark;
     }
@@ -76,11 +77,11 @@ public class KMLWriter {
             for(Polygon p: polygons){
                 multigeom.addContent(writePolygon(p));
             }
-
             return multigeom;
-        } else {
+        } else if(!(polygons.size() == 0)){
             return writePolygon(polygons.get(0));
         }
+        return null;
     }
 
     private Element writePolygon(Polygon polygon) {
