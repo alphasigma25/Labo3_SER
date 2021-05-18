@@ -34,9 +34,6 @@ public class KMLWriter {
 
             root.addContent(document);
 
-
-            // TODO
-
             XMLOutputter xmlOutputer = new XMLOutputter();
             xmlOutputer.setFormat(Format.getPrettyFormat());
             xmlOutputer.output(kmlDoc, new FileWriter(kmlFilePath));
@@ -56,17 +53,6 @@ public class KMLWriter {
         //ExtendedData
         Element extendedData = new Element("ExtendedData");
         placemark.addContent(extendedData);
-
-        // TODO: Remove
-        /*
-        //ADMIN
-        Element dataAdmin = new Element("Data");
-        dataAdmin.setAttribute("name", "ADMIN");
-        Element adminValue = new Element("value");
-        adminValue.addContent(feature.getName());
-        dataAdmin.addContent(adminValue);
-        extendedData.addContent(dataAdmin);
-         */
 
         //ISO
         Element dataISO = new Element("Data");
@@ -125,6 +111,4 @@ public class KMLWriter {
         coordinates.addContent(textCoords.toString());
         return coordinates;
     }
-
 }
-

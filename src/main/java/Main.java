@@ -17,27 +17,6 @@ public class Main {
         writer.write(features);
     }
 
-    /*
-    features : Feature[]
-
-    class Feature {
-      name: String,
-      polygons: Polygon[],
-    }
-    type :
-    features : []
-    feature : {
-      type : ???
-      properties : {ADMIN, ISO_A3}
-      geometry :
-      { type : Polygon | ???
-      coordinates [[ [double,double] ]]
-
-
-      }
-    }
-     */
-
     //parser geojson
     public static ArrayList<Feature> readfile(String file) {
         //JSON parser object pour lire le fichier
